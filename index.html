@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current converter currency</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <section class="currency-converter container">
+        <h1>Валюта</h1>
+        <ul class="row">
+            <li class="col-4">
+                <h3 class="currency-name" data-currency="USD">Курс USD: <span class="current-rate"></span></h3>
+            </li>
+            <li class="col-4">
+                <h3 class="currency-name" data-currency="EUR">Курс EUR: <span class="current-rate"></span></h3>
+            </li>
+            <li class="col-4">
+                <h3 class="currency-name" data-currency="GBP">Курс GBP: <span class="current-rate"></span></h3>
+            </li>
+        </ul>
+        <dl class="row">
+            <div class="col-6">
+                <dt>Отдаю</dt>
+                <dd>
+                    <select class="select-give" disabled>
+                        <option class="ruble">RUB - &#8381;</option>
+                        <option class="dollar">USD - $</option>
+                        <option class="euro">EUR - &euro;</option>
+                        <option class="pound">GBP - &pound;</option>
+                    </select>
+                    <input class="input-give" type="number">
+                </dd>
+            </div>
+
+            <div class="col-6">
+                <dt>Получаю</dt>
+                <dd>
+                    <select class="select-get">
+                        <option class="ruble">RUB - &#8381;</option>
+                        <option class="dollar">USD - $</option>
+                        <option class="euro">EUR - &euro;</option>
+                        <option class="pound">GBP - &pound;</option>    
+                    </select>
+                    <input class="input-get" type="number">
+                </dd>
+            </div>   
+        </dl>
+    </section>
+    
+
+    
+    <script src="main.js"></script>
+</body>
+</html>
