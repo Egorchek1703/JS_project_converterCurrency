@@ -53,7 +53,8 @@ async function setRates(){
         if(currencyRateOnPage[i].getAttribute('data-currency') == rates.GBP.CharCode){
             currencyRateOnPage[i].querySelector('span').innerHTML = rates.GBP.Value.toFixed(2)
         } 
-    }  
+    }
+    console.log('Данные обновлены')  
 }
 
 // ! Пишем функцию, которая в зависимости от выбранной валюты обращается к нужному объекту в rates, затем умножает количество введенных рублей на свойство value
@@ -91,8 +92,6 @@ async function changeSelectedCurrency(){
 
 // ! Пишем функцию, сравнивающую вчерашнее значение курса валют с нынешним, и в зависимости от результат меняющую цвет отображаемого курса
 
-
-
 async function changeColorRate(){
     let ratesArr = Object.entries(rates)
     for(let i=0; i<ratesArr.length; i++){
@@ -107,8 +106,6 @@ async function changeColorRate(){
     }
 }
 
-
-
 //  ! Объединяем все функции в логическом порядке, используя ключевое слово await, после загрузки страницы
 
 window.addEventListener('load', async function afterLoadWindow(){
@@ -117,4 +114,11 @@ window.addEventListener('load', async function afterLoadWindow(){
     await changeColorRate()
     await changeCurrency()
     await changeSelectedCurrency()
+    setInterval(()=>{
+        getResponse()
+        setRates()
+    }, 5000)
 })
+// Для того чтобы обновлять курсы валют чаще одного раза при загрузке страницы, функции getResponse() и setRates() необходимо вызвать,
+// а затем через setInterval() вызывать их повторно
+// В функции changeCurrency() массивную проверку можно заменить обращаясь к объектам внутри rates через rates['имя объекта']
