@@ -4,19 +4,21 @@
 // После преобразования с помощью json() необходимо еще в одном методе then в callback функцию передать результат выполнения прошлого then()
 // и теперь данный объект (data) и будет объектом JavaScript в котором лежит необходимая информация
 
-
-
 // fetch('https://www.cbr-xml-daily.ru/daily_json.js').then((result)=>{
 //     return result.json()
 // }).then((data)=>{
 //     console.log(data)
 // })
 
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Метод с большим количество then() можно использовать, но лучше получить данный через асинхронную функцию и ключевые слова await (подождать)
 // Запись ниже задает внутри функции поведение: положить в переменную результат fetch(), но не выполнять код, до того как fetch() получит ответ  
 // Такой подход реализован для того, чтобы избежать ситуации когда результат fetch() еще не получен, а считыватель кода уже реализует операции с переменной 
 // в которой должен находиться этот результат
+
+// ! Пишем функцию которая получает результат fetch() и вкладывает необходимые объекты валют в внешний объект rates
+
 let response
 let resultFetch
 let data
@@ -34,8 +36,7 @@ async function getResponse(){
     rates.GBP = resultFetch.Valute.GBP
 }
 
-
-// Теперь необходимо написать функцию которая считает количество валюты в зависимости от введенного рубля
+// ! Пишем функцию, которая задает значения курса элементам на странице(span) для наглядности
 
 let selectGive = document.querySelector('.select-give')
 let selectGet = document.querySelector('.select-get')
@@ -55,7 +56,8 @@ async function setRates(){
     }  
 }
 
-// 
+// ! Пишем функцию, которая в зависимости от выбранной валюты обращается к нужному объекту в rates, затем умножает количество введенных рублей на свойство value
+// подразумевающее курс выюранной валюты по отношению к рублюы
 
 let inputGet = document.querySelector('.input-get')
 let inputGive = document.querySelector('.input-give')
@@ -79,8 +81,19 @@ async function changeCurrency(){
     })
 }
 
+// ! Пишем функцию присваюивающую слушатель событий для выбираемой валюты так, чтобы при изменении выбранной валюты значения input сбрасывались
+
+async function changeSelectedCurrency(){
+    selectGet.addEventListener('input', ()=>{
+        inputGet.value = inputGive.value = ''
+    })
+}
+
+//  ! Объединяем все функции в логическом порядке, используя ключевое слово await, после загрузки страницы
+
 window.addEventListener('load', async function afterLoadWindow(){
     await getResponse()
     await setRates()
     await changeCurrency()
+    await changeSelectedCurrency()
 })
