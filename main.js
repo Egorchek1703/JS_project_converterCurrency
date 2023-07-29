@@ -66,13 +66,13 @@ async function changeCurrency(){
     inputGive.addEventListener('input', ()=>{
         if(selectGive.value.toUpperCase().indexOf('RUB') > -1){
             if(selectGet.value.toUpperCase().indexOf(rates.USD.CharCode) > -1){ 
-                inputGet.value = Number((Number(inputGive.value) * Number(rates.USD.Value.toFixed(2))).toFixed(2))
+                inputGet.value = Number((Number(inputGive.value) / Number(rates.USD.Value.toFixed(2))).toFixed(2))
             }
             if(selectGet.value.toUpperCase().indexOf(rates.EUR.CharCode) > -1){ 
-                inputGet.value = Number((Number(inputGive.value) * Number(rates.EUR.Value.toFixed(2))).toFixed(2))
+                inputGet.value = Number((Number(inputGive.value) / Number(rates.EUR.Value.toFixed(2))).toFixed(2))
             }
             if(selectGet.value.toUpperCase().indexOf(rates.GBP.CharCode) > -1){ 
-                inputGet.value = Number((Number(inputGive.value) * Number(rates.GBP.Value.toFixed(2))).toFixed(2))
+                inputGet.value = Number((Number(inputGive.value) / Number(rates.GBP.Value.toFixed(2))).toFixed(2))
             }
             else if(selectGet.value.toUpperCase().indexOf('RUB') > -1){
                 inputGet.value = inputGive.value
@@ -89,11 +89,32 @@ async function changeSelectedCurrency(){
     })
 }
 
+// ! Пишем функцию, сравнивающую вчерашнее значение курса валют с нынешним, и в зависимости от результат меняющую цвет отображаемого курса
+
+
+
+async function changeColorRate(){
+    let ratesArr = Object.entries(rates)
+    for(let i=0; i<ratesArr.length; i++){
+        if(ratesArr[i][1].Value > ratesArr[i][1].Previous){
+            document.querySelector(`[data-currency="${ratesArr[i][1].CharCode}"]`).style.color = 'green'
+            document.querySelector(`[data-currency="${ratesArr[i][1].CharCode}"]`).classList.add('arrow-up')
+        }
+        else{
+            document.querySelector(`[data-currency="${ratesArr[i][1].CharCode}"]`).style.color = 'red'
+            document.querySelector(`[data-currency="${ratesArr[i][1].CharCode}"]`).classList.add('arrow-down')
+        }
+    }
+}
+
+
+
 //  ! Объединяем все функции в логическом порядке, используя ключевое слово await, после загрузки страницы
 
 window.addEventListener('load', async function afterLoadWindow(){
     await getResponse()
     await setRates()
+    await changeColorRate()
     await changeCurrency()
     await changeSelectedCurrency()
 })

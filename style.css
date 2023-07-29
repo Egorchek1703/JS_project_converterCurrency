@@ -43,5 +43,18 @@ dd input, select{
     width: 60%;
     height: 30px;
     margin-bottom: 10px;
-    
+}
+.arrow-down{
+    &::after{
+        content: ' ↓';
+        font-weight: 900;
+        font-size: 30px;
+    }
+}
+.arrow-up{
+    &::after{
+        content: ' ↑';
+        font-weight: 900;
+        font-size: 30px;
+    }
 }
